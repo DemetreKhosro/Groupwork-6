@@ -8,15 +8,18 @@
 </head>
 <body>
     <div class="container">
-    <h1 class="title">Weather Forecast</h1>
+    <h1 id="title" class="title">Weather Forecast</h1>
+
+    <div class="lang-switch">
+        <button onclick="setLang('en')">English</button>
+        <button onclick="setLang('geo')">GEO</button>
+    </div>
     <div class="search">
         <input type="text" id="city" placeholder="City name" />
         <button id="searchBtn">Search</button>
     </div>
-
     <div id="result" class="result hidden"></div>
     </div>
     <script src="script.js"></script>
-</body>
-
+</body> 
 </html>

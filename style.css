@@ -2,12 +2,12 @@
 
 * {
     font-family: "Archivo Black";
-    font-size: xx-large;
+    font-size: small;
 }
 
 body {
     font-family: "Archivo Black";
-    background: lightblue;
+    background: rgb(44, 192, 250);
     margin: 0;
     height: 100vh;
     display: flex;
@@ -26,7 +26,7 @@ body {
     font-size: 32px;
     font-weight: 600;
     margin-bottom: 25px;
-    color: navy;
+    color: white;
     text-align: center;
 }
 
@@ -58,7 +58,7 @@ body {
 }
 
 .search button:hover {
-    background: darkblue;
+    background: darkgreen;
 }
 
 .result {
@@ -68,4 +68,88 @@ body {
     border-radius: 10px;
     text-align: center;
     margin-top: 10px;
+}
+
+.lang-switch {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.lang-switch button {
+    text-align: right;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background: navy;
+    color: white;
+    cursor: pointer;
+}
+
+.lang-switch button:hover {
+    background: darkblue;
+}
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.item {
+    background: #f1f1f1;
+    padding: 10px 15px;
+    border-radius: 6px;
+    text-align: center;
+}
+
+@media (max-width: 376px) {
+    .search {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .search input {
+        width: 90%;
+        min-width: unset;
+    }
+
+    .search button {
+        width: 60%;
+        align-self: center;
+    }
+
+    .row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .item {
+        flex: 1 1 100%;
+    }
+
+    .container {
+        padding: 15px;
+        width: 95%;
+    }
+
+    .title {
+        font-size: 1.4rem;
+    }
+
+    .lang-switch {
+        gap: 5px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .lang-switch button {
+        padding: 5px 8px;
+        font-size: 0.85rem;
+    }
 }

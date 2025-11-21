@@ -1,4 +1,5 @@
 let apiKey = "47646ae3b9f8550edb16e511e6c8e165";
+let lastWeatherData = null; 
 
 document.getElementById("searchBtn").onclick = getWeather;
 
@@ -9,7 +10,7 @@ async function getWeather() {
 
     if (city === "") {
         resultBox.classList.remove("hidden");
-        resultBox.innerHTML = "Please enter a city name.";
+        resultBox.innerHTML = texts[currentLang].enterCity;
         return;
     }
 
@@ -21,19 +22,12 @@ async function getWeather() {
 
         if (data.cod != 200) {
             resultBox.classList.remove("hidden");
-            resultBox.innerHTML = "City not found.";
+            resultBox.innerHTML = texts[currentLang].notFound;
             return;
         }
 
-        resultBox.classList.remove("hidden");
-        resultBox.innerHTML = "<h2>" + data.name + "</h2>" +
-            "<div class='row'>" +
-            "<div class='item'>Temp: " + data.main.temp + "°C</div>" +
-            "<div class='item'>Feels: " + data.main.feels_like + "°C</div>" +
-            "<div class='item'>Humidity: " + data.main.humidity + "%</div>" +
-            "<div class='item'>Wind: " + data.wind.speed + " m/s</div>" +
-            "<div class='item'>Weather: " + data.weather[0].main + "</div>" +
-            "</div>";
+        lastWeatherData = data; 
+        displayWeather(data); 
 
         let weather = data.weather[0].main.toLowerCase();
 
@@ -44,16 +38,73 @@ async function getWeather() {
         } else if (weather === "clear") {
             body.style.backgroundImage = "url('images/clouds.png')";
         } else if (weather === 'cloudy') {
-            body.style.backgroundImage = "url('images/cloudy.png')"
-        } else {
-            body.style.backgroundColor = 'lightblue'
+            body.style.backgroundImage = "url('images/cloudy.png')";
+        } else if (weather === 'mist') {
+            body.style.backgroundColor = "rgba(37, 174, 228, 1)"
         }
-
-        body.style.backgroundSize = "cover";
-        body.style.backgroundRepeat = "no-repeat";
 
     } catch (error) {
         resultBox.classList.remove("hidden");
-        resultBox.innerHTML = "Error fetching data.";
+        resultBox.innerHTML = texts[currentLang].fetchError;
+    }
+}
+
+function displayWeather(data) {
+    let resultBox = document.getElementById("result");
+    resultBox.classList.remove("hidden");
+
+    const langTexts = texts[currentLang];
+
+    resultBox.innerHTML = `<h2>${data.name}</h2>
+        <div class='row'>
+            <div class='item'>${langTexts.temp}: ${data.main.temp}°C</div>
+            <div class='item'>${langTexts.feels}: ${data.main.feels_like}°C</div>
+            <div class='item'>${langTexts.humidity}: ${data.main.humidity}%</div>
+            <div class='item'>${langTexts.wind}: ${data.wind.speed} m/s</div>
+            <div class='item'>${langTexts.weather}: ${data.weather[0].main}</div>
+        </div>`;
+}
+
+let currentLang = 'en';
+
+const texts = {
+    en: {
+        title: "Weather Forecast",
+        placeholder: "City name",
+        searchBtn: "Search",
+        enterCity: "Please enter a city name.",
+        notFound: "City not found.",
+        fetchError: "Error fetching data.",
+        temp: "Temp",
+        feels: "Feels",
+        humidity: "Humidity",
+        wind: "Wind",
+        weather: "Weather"
+    },
+    geo: {
+        title: "ამინდის პროგნოზი",
+        placeholder: "ქალაქი",
+        searchBtn: "ძებნა",
+        enterCity: "გთხოვთ, შეიყვანეთ ქალაქის სახელი.",
+        notFound: "ქალაქი ვერ მოიძებნა.",
+        fetchError: "შეცდომა მონაცემების მიღებისას.",
+        temp: "ტემპ",
+        feels: "გრძნობის ტემპერატურა",
+        humidity: "ნესტი",
+        wind: "ქარი",
+        weather: "ამინდი"
+    }
+};
+
+
+function setLang(lang) {
+    currentLang = lang;
+
+    document.getElementById('title').textContent = texts[lang].title;
+    document.getElementById('city').placeholder = texts[lang].placeholder;
+    document.getElementById('searchBtn').textContent = texts[lang].searchBtn;
+
+    if (lastWeatherData) {
+        displayWeather(lastWeatherData);
     }
 }
