@@ -1,5 +1,5 @@
 let apiKey = "47646ae3b9f8550edb16e511e6c8e165";
-let lastWeatherData = null; 
+let lastWeatherData = null;
 
 document.getElementById("searchBtn").onclick = getWeather;
 
@@ -26,21 +26,30 @@ async function getWeather() {
             return;
         }
 
-        lastWeatherData = data; 
-        displayWeather(data); 
+        lastWeatherData = data;
+        displayWeather(data);
 
         let weather = data.weather[0].main.toLowerCase();
 
+        function setFullBackground(src) {
+            body.style.backgroundImage = `url('${src}')`;
+            body.style.backgroundSize = "cover";
+            body.style.backgroundPosition = "center";
+            body.style.backgroundRepeat = "no-repeat";
+            body.style.backgroundColor = "";
+        }
+
         if (weather === "rain") {
-            body.style.backgroundImage = "url('images/rain.png')";
+            setFullBackground("images/rain.png");
         } else if (weather === "sunny") {
-            body.style.backgroundImage = "url('images/sunny.png')";
+            setFullBackground("images/sunny.png");
         } else if (weather === "clear") {
-            body.style.backgroundImage = "url('images/clouds.png')";
-        } else if (weather === 'cloudy') {
-            body.style.backgroundImage = "url('images/cloudy.png')";
-        } else if (weather === 'mist') {
-            body.style.backgroundColor = "rgba(37, 174, 228, 1)"
+            setFullBackground("images/clouds.png");
+        } else if (weather === "cloudy") {
+            setFullBackground("images/cloudy.png");
+        } else if (weather === "mist") {
+            body.style.backgroundImage = "";
+            body.style.backgroundColor = "rgba(37, 174, 228, 1)";
         }
 
     } catch (error) {
